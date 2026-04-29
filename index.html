@@ -2,35 +2,42 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Banco Digital - Arquitectura Empresarial</title>
+<title>Banco Nova - Arquitectura Empresarial</title>
 
 <style>
 body {
-font-family: Arial, sans-serif;
 margin: 0;
-background: #f4f6f9;
-color: #333;
+font-family: 'Segoe UI', sans-serif;
+background: #eef2f7;
+}
+
+/* HEADER */
+header {
+background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
+color: white;
+padding: 20px;
+text-align: center;
+font-size: 24px;
 }
 
 /* NAV */
 nav {
-background: #1a3c6e;
-padding: 15px;
 display: flex;
 justify-content: center;
+background: #1f3c88;
 }
 
 nav button {
-background: white;
+background: transparent;
 border: none;
-margin: 5px;
-padding: 10px 15px;
+color: white;
+padding: 15px 20px;
 cursor: pointer;
-border-radius: 5px;
+font-size: 15px;
 }
 
 nav button:hover {
-background: #ddd;
+background: rgba(255,255,255,0.2);
 }
 
 /* SECCIONES */
@@ -43,23 +50,42 @@ padding: 40px;
 display: block;
 }
 
-/* TARJETAS */
+/* CARDS */
 .card {
 background: white;
+border-radius: 12px;
+padding: 25px;
+margin-bottom: 20px;
+box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* DASHBOARD */
+.dashboard {
+display: flex;
+gap: 20px;
+flex-wrap: wrap;
+}
+
+.kpi {
+flex: 1;
+background: #ffffff;
 padding: 20px;
-margin: 15px 0;
 border-radius: 10px;
+text-align: center;
 box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-h1, h2 {
-color: #1a3c6e;
+.kpi h2 {
+margin: 0;
+color: #1f3c88;
 }
 
+/* IMÁGENES */
 img {
-max-width: 100%;
+width: 100%;
 border-radius: 10px;
 }
+
 </style>
 
 <script>
@@ -74,106 +100,116 @@ document.getElementById(id).classList.add('active');
 
 <body>
 
+<header>
+🏦 Banco Nova – Arquitectura Empresarial
+</header>
+
 <nav>
 <button onclick="showSection('inicio')">Inicio</button>
 <button onclick="showSection('archimate')">ArchiMate</button>
-<button onclick="showSection('mapaTI')">Mapa TI</button>
-<button onclick="showSection('analisis')">Análisis</button>
+<button onclick="showSection('mapaTI')">Arquitectura TI</button>
+<button onclick="showSection('bpmn')">Proceso BPMN</button>
+<button onclick="showSection('analisis')">TOGAF</button>
 <button onclick="showSection('conclusiones')">Conclusiones</button>
 </nav>
 
 <!-- INICIO -->
 <div id="inicio" class="section active">
-<h1>Banco Digital</h1>
 
 <div class="card">
-<h2>Resumen del Proyecto</h2>
-<p>Este proyecto presenta el diseño de arquitectura empresarial para un banco digital,
-integrando negocio y tecnología mediante TOGAF y ArchiMate.</p>
+<h1>Resumen Ejecutivo</h1>
+<p>Banco Nova implementa una arquitectura empresarial para digitalizar la apertura de cuentas, alineando negocio, aplicaciones y tecnología.</p>
+</div>
 
-<p><b>Objetivo:</b> Mejorar la apertura de cuentas digitales reduciendo el tiempo en 30%.</p>
+<div class="dashboard">
+
+<div class="kpi">
+<h2>30%</h2>
+<p>Reducción TAT</p>
+</div>
+
+<div class="kpi">
+<h2>+15%</h2>
+<p>Conversión</p>
+</div>
+
+<div class="kpi">
+<h2>+20%</h2>
+<p>Satisfacción</p>
+</div>
+
 </div>
 
 </div>
 
 <!-- ARCHIMATE -->
 <div id="archimate" class="section">
-<h1>Diagrama ArchiMate</h1>
-
 <div class="card">
-<h2>Modelo Simplificado</h2>
-
-<img src="archimate_diagram.png">
-
-<p><b>Explicación:</b></p>
-<ul>
-<li><b>Business Layer:</b> Cliente, Apertura de cuenta</li>
-<li><b>Application Layer:</b> Sistema bancario</li>
-<li><b>Technology Layer:</b> Servidores y base de datos</li>
-</ul>
-
-<p>El diagrama muestra cómo el negocio se conecta con aplicaciones y tecnología.</p>
+<h2>Diagrama ArchiMate</h2>
+<img src="archimate_pro.png">
+<p>Representa la relación entre negocio, aplicaciones y tecnología.</p>
 </div>
-
 </div>
 
 <!-- MAPA TI -->
 <div id="mapaTI" class="section">
-<h1>Mapa de Arquitectura de TI</h1>
-
 <div class="card">
+<h2>Mapa de Arquitectura TI</h2>
+<img src="mapa_ti_pro.png">
+<p>Flujo completo desde usuario hasta infraestructura.</p>
+</div>
+</div>
 
-<img src="mapa_ti.png">
+<!-- BPMN -->
+<div id="bpmn" class="section">
+<div class="card">
+<h2>Proceso BPMN</h2>
 
-<p><b>Capas:</b></p>
-<ul>
-<li>Presentación: Web/App</li>
-<li>Aplicación: Backend bancario</li>
-<li>Datos: Base de datos</li>
-<li>Infraestructura: Servidores</li>
-</ul>
+<p>Inicio → Capturar datos → Validar documento → Decisión → Validar biometría → Aprobación → Fin</p>
 
 </div>
 </div>
 
 <!-- ANALISIS -->
 <div id="analisis" class="section">
-<h1>Análisis (TOGAF ADM)</h1>
-
 <div class="card">
-<h2>Fases TOGAF</h2>
+<h2>TOGAF ADM</h2>
 
 <ul>
-<li><b>Arquitectura de Negocio:</b> Procesos de apertura de cuenta</li>
-<li><b>Arquitectura de Aplicación:</b> Sistema bancario digital</li>
-<li><b>Arquitectura Tecnológica:</b> Infraestructura TI</li>
+<li>Negocio: Onboarding digital</li>
+<li>Aplicación: Core bancario</li>
+<li>Tecnología: Infraestructura cloud</li>
 </ul>
 
-<h2>Trazabilidad</h2>
-<p>Objetivo → Proceso → Sistema → Infraestructura</p>
+<h3>Trazabilidad</h3>
+<p>Objetivo → Valor → Capacidad → Proceso → Sistema → Infraestructura</p>
 
 </div>
 </div>
 
 <!-- CONCLUSIONES -->
 <div id="conclusiones" class="section">
-<h1>Conclusiones</h1>
-
 <div class="card">
+<h2>Conclusiones</h2>
+
 <ul>
-<li>La arquitectura empresarial alinea negocio y tecnología.</li>
-<li>TOGAF permite estructurar la solución.</li>
-<li>ArchiMate facilita la visualización.</li>
+<li>Se logra alineación negocio-TI</li>
+<li>Arquitectura escalable y moderna</li>
+<li>Mejora experiencia del cliente</li>
 </ul>
 
-<h2>Referencias</h2>
+<h3>Referencias</h3>
 <ul>
 <li>TOGAF 9.2</li>
 <li>ArchiMate 3.2</li>
 <li>ISO 42010</li>
 </ul>
+
+</div>
 </div>
 
+</body>
+</html>
 </div>
 
 </body>
