@@ -1,225 +1,287 @@
+# Generación del archivo HTML final con la interfaz de banco y la documentación técnica integrada.
+
+html_content = """
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arquitectura Empresarial - Banco NeoNexus</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>NeoNexus Bank - Portal de Arquitectura Empresarial</title>
     <style>
+        /* Variables de diseño: Prioridad y Descanso Visual */
         :root {
-            --primary: #1a2b3c;
-            --accent: #00a8cc;
-            --bg: #f8f9fa;
-            --text: #333;
-            --card-bg: #ffffff;
+            --primary: #0f172a; /* Azul oscuro para autoridad */
+            --secondary: #334155;
+            --accent: #2563eb; /* Azul brillante para acciones */
+            --bg-body: #f8fafc; /* Fondo gris muy claro para descanso visual */
+            --bg-card: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --border: #e2e8f0;
         }
 
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
             line-height: 1.6;
         }
 
-        /* Navegación - Arquitectura de Información */
-        nav {
-            background: var(--primary);
-            padding: 1rem 0;
+        /* --- ARQUITECTURA DE INFORMACIÓN (AI): NAVEGACIÓN --- */
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        .nav-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
+        .logo { font-size: 1.5rem; font-weight: 800; letter-spacing: -1px; }
+        .logo span { color: var(--accent); }
+
+        nav { display: flex; gap: 10px; }
 
         nav button {
-            background: none;
+            background: transparent;
             border: none;
-            color: #ccc;
-            padding: 10px 20px;
+            color: #94a3b8;
+            padding: 0.6rem 1.2rem;
             cursor: pointer;
-            font-size: 0.9rem;
-            transition: 0.3s;
-            border-radius: 5px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
 
-        nav button:hover, nav button.active {
-            color: white;
-            background: rgba(255,255,255,0.1);
-        }
+        nav button:hover { color: white; background: rgba(255,255,255,0.1); }
+        nav button.active { color: white; background: var(--accent); }
 
-        /* Contenedor Principal */
+        /* --- LAYOUT PRINCIPAL --- */
         .container {
-            max-width: 1100px;
-            margin: 40px auto;
-            padding: 0 20px;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
         }
 
-        section {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        section.active {
-            display: block;
-        }
+        section { display: none; animation: fadeIn 0.5s ease-in-out; }
+        section.active { display: block; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        h1, h2, h3 { color: var(--primary); }
-        
+        /* --- ESTILOS DE BANCA VIRTUAL (PRODUCTO FINAL) --- */
         .card {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            margin-bottom: 30px;
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            margin-bottom: 1.5rem;
         }
 
-        .diagram-placeholder {
-            width: 100%;
-            height: 400px;
-            background: #eee;
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .balance-hero {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+        }
+
+        .balance-label { font-size: 0.9rem; text-transform: uppercase; opacity: 0.8; }
+        .balance-amount { font-size: 3.5rem; font-weight: 800; margin: 0.5rem 0; }
+
+        .transaction-item {
             display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .amount.pos { color: var(--success); font-weight: 700; }
+        .amount.neg { color: var(--danger); font-weight: 700; }
+
+        /* --- ESTILOS DE DOCUMENTACIÓN (TOGAF / ARCHIMATE) --- */
+        .doc-section { border-left: 5px solid var(--accent); padding-left: 1.5rem; margin-bottom: 2rem; }
+        
+        .diagram-box {
+            background: #f1f5f9;
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            border-radius: 8px;
-            border: 2px dashed #ccc;
-            margin: 20px 0;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        table th, table td {
-            text-align: left;
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        footer {
             text-align: center;
-            padding: 40px;
-            font-size: 0.8rem;
-            color: #777;
+            padding: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+        th { background: #f1f5f9; text-align: left; padding: 12px; border: 1px solid var(--border); }
+        td { padding: 12px; border: 1px solid var(--border); }
+
+        footer { text-align: center; padding: 4rem 0; color: var(--text-muted); font-size: 0.9rem; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 850px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
+            header { flex-direction: column; height: auto; gap: 1rem; }
+            nav { width: 100%; justify-content: center; overflow-x: auto; }
         }
     </style>
 </head>
 <body>
 
-<nav>
-    <div class="nav-container">
-        <button onclick="showTab('inicio')" id="btn-inicio" class="active">Inicio</button>
-        <button onclick="showTab('archimate')" id="btn-archimate">ArchiMate</button>
-        <button onclick="showTab('ti')" id="btn-ti">Arquitectura TI</button>
-        <button onclick="showTab('togaf')" id="btn-togaf">Análisis TOGAF</button>
-        <button onclick="showTab('final')" id="btn-final">Cierre</button>
-    </div>
-</nav>
+<header>
+    <div class="logo">NeoNexus <span>Bank</span></div>
+    <nav>
+        <button onclick="changeTab('inicio')" id="btn-inicio" class="active">Inicio/Resumen</button>
+        <button onclick="changeTab('banca')" id="btn-banca">Banca Virtual</button>
+        <button onclick="changeTab('arquitectura')" id="btn-arquitectura">ArchiMate & TI</button>
+        <button onclick="changeTab('togaf')" id="btn-togaf">TOGAF & ADM</button>
+        <button onclick="changeTab('conclusiones')" id="btn-conclusiones">Cierre</button>
+    </nav>
+</header>
 
 <div class="container">
-    
+
     <section id="inicio" class="active">
         <div class="card">
-            <h1>Proyecto: Modernización Banco NeoNexus</h1>
-            <p><strong>Resumen:</strong> Este proyecto presenta la propuesta de arquitectura empresarial para un banco pequeño que busca escalar sus servicios digitales manteniendo una infraestructura ágil. Se utiliza el marco TOGAF 9.2 para garantizar la alineación entre negocio y tecnología.</p>
-            <h3>Objetivos del Sistema</h3>
+            <div class="doc-section">
+                <h1>Resumen General del Proyecto</h1>
+                <p>Propuesta de Modernización de Arquitectura Empresarial para NeoNexus Bank.</p>
+            </div>
+            <p>Este proyecto integra la visión tecnológica y de negocio para un banco pequeño, utilizando marcos de trabajo internacionales como <strong>TOGAF 9.2</strong> y <strong>ArchiMate 3.2</strong>. El objetivo es presentar una plataforma robusta, segura y centrada en la experiencia del usuario (UX).</p>
+            <h3 style="margin-top: 1.5rem;">Principios de Arquitectura de Información Aplicados:</h3>
             <ul>
-                <li>Optimización de transacciones core mediante microservicios.</li>
-                <li>Garantía de trazabilidad de datos según normativas bancarias.</li>
-                <li>Mejora de la experiencia de usuario (UX) mediante interfaces limpias.</li>
+                <li><strong>Organización:</strong> Contenido estructurado por dominios de arquitectura.</li>
+                <li><strong>Navegación:</strong> Sistema de pestañas SPA para acceso inmediato sin carga.</li>
+                <li><strong>Etiquetado:</strong> Terminología bancaria y técnica estandarizada.</li>
             </ul>
         </div>
     </section>
 
-    <section id="archimate">
-        <div class="card">
-            <h2>Modelo de Arquitectura ArchiMate</h2>
-            <p>El diagrama visualiza la relación entre los procesos de negocio (Apertura de cuenta) y los servicios de aplicación.</p>
-            <div class="diagram-placeholder">
-                [Aquí se inserta la imagen del Diagrama ArchiMate exportado]
+    <section id="banca">
+        <div class="dashboard-grid">
+            <div class="main-col">
+                <div class="balance-hero">
+                    <div class="balance-label">Saldo disponible en cuenta</div>
+                    <div class="balance-amount">$12,450.80</div>
+                    <p style="opacity: 0.7;">Cuenta de Ahorros • **** 9921</p>
+                </div>
+                <div class="card">
+                    <h3>Movimientos Recientes</h3>
+                    <div class="transaction-item">
+                        <div><strong>Pago de Nómina - Mayo</strong><br><small>28 Abr 2026</small></div>
+                        <div class="amount pos">+$2,500.00</div>
+                    </div>
+                    <div class="transaction-item">
+                        <div><strong>Transferencia a: Juan Pérez</strong><br><small>27 Abr 2026</small></div>
+                        <div class="amount neg">-$120.00</div>
+                    </div>
+                    <div class="transaction-item">
+                        <div><strong>Suscripción Netflix</strong><br><small>26 Abr 2026</small></div>
+                        <div class="amount neg">-$15.99</div>
+                    </div>
+                </div>
             </div>
-            <h3>Explicación Técnica</h3>
-            <ul>
-                <li><strong>Capa de Negocio:</strong> Define los actores (Cajero, Cliente) y procesos.</li>
-                <li><strong>Capa de Aplicación:</strong> Muestra el software de gestión bancaria interactuando con los procesos.</li>
-                <li><strong>Capa de Infraestructura:</strong> Representa los servidores y bases de datos locales.</li>
-            </ul>
+            <div class="side-col">
+                <div class="card">
+                    <h3>Acciones</h3>
+                    <button style="width: 100%; padding: 12px; background: var(--accent); color: white; border: none; border-radius: 8px; margin-bottom: 10px; cursor: pointer; font-weight: 700;">Transferir Dinero</button>
+                    <button style="width: 100%; padding: 12px; background: #f1f5f9; color: var(--primary); border: 1px solid var(--border); border-radius: 8px; cursor: pointer;">Pagar Servicios</button>
+                </div>
+                <div class="card" style="background: #eff6ff;">
+                    <h4 style="color: var(--accent);">Consejo de Seguridad</h4>
+                    <p style="font-size: 0.85rem;">Nunca compartas tus claves por teléfono o correo electrónico.</p>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section id="ti">
+    <section id="arquitectura">
         <div class="card">
-            <h2>Mapa de Arquitectura de TI</h2>
-            <p>Estructura física y lógica de los componentes tecnológicos del banco.</p>
-            <div class="diagram-placeholder">
-                [Aquí se inserta el Mapa de Red/TI]
+            <div class="doc-section">
+                <h2>Entregables de Arquitectura</h2>
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Componente</th>
-                        <th>Descripción</th>
-                        <th>Función</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Servidor Cloud</td>
-                        <td>AWS / Azure</td>
-                        <td>Hosting de la Web App</td>
-                    </tr>
-                    <tr>
-                        <td>Core Bancario</td>
-                        <td>Base de Datos SQL</td>
-                        <td>Registro de transacciones</td>
-                    </tr>
-                    <tr>
-                        <td>Firewall</td>
-                        <td>Capa de Seguridad</td>
-                        <td>Protección de datos sensibles</td>
-                    </tr>
-                </tbody>
-            </table>
+            
+            <h3>Diagrama ArchiMate Simplificado</h3>
+            <div class="diagram-box">
+                <p><strong></strong></p>
+                <p style="font-size: 0.85rem; color: var(--text-muted); max-width: 500px;">
+                    Este diagrama muestra la trazabilidad entre el Actor (Cliente), el Proceso de Negocio (Banca Móvil) y la infraestructura (Servidores de Base de Datos).
+                </p>
+            </div>
+
+            <h3>Mapa de Arquitectura de TI</h3>
+            <div class="diagram-box">
+                <p><strong></strong></p>
+                <p style="font-size: 0.85rem; color: var(--text-muted); max-width: 500px;">
+                    Topología lógica que detalla la conexión entre el Firewall, el Servidor de Aplicaciones y el Almacenamiento en Nube.
+                </p>
+            </div>
         </div>
     </section>
 
     <section id="togaf">
         <div class="card">
-            <h2>Análisis Descriptivo (TOGAF ADM)</h2>
-            <p>Aplicación de las fases del ciclo ADM para el banco.</p>
-            <h3>Fase B: Arquitectura de Negocio</h3>
-            <p>Se identificaron los servicios esenciales de ahorro y crédito, eliminando redundancias en la atención al cliente.</p>
-            <h3>Fase C: Arquitectura de Sistemas de Información</h3>
-            <p>Trazabilidad: Cada transacción iniciada en la web se vincula directamente con un ID de auditoría en el backend.</p>
-            <h3>Fase D: Arquitectura Tecnológica</h3>
-            <p>Migración hacia una infraestructura híbrida para mayor resiliencia.</p>
+            <div class="doc-section">
+                <h2>Análisis Descriptivo (TOGAF ADM)</h2>
+            </div>
+            <p>Se aplicaron las fases del ciclo ADM para asegurar la trazabilidad del proyecto:</p>
+            <table>
+                <tr>
+                    <th>Fase ADM</th>
+                    <th>Descripción y Trazabilidad</th>
+                </tr>
+                <tr>
+                    <td><strong>Visión</strong></td>
+                    <td>Crear una plataforma digital ágil para un banco en crecimiento.</td>
+                </tr>
+                <tr>
+                    <td><strong>Negocio</strong></td>
+                    <td>Optimización del flujo de "Transferencias Inmediatas" para el usuario final.</td>
+                </tr>
+                <tr>
+                    <td><strong>Sistemas</strong></td>
+                    <td>Uso de microservicios para garantizar disponibilidad del 99.9%.</td>
+                </tr>
+                <tr>
+                    <td><strong>Tecnología</strong></td>
+                    <td>Infraestructura basada en contenedores y cifrado AES-256.</td>
+                </tr>
+            </table>
         </div>
     </section>
 
-    <section id="final">
+    <section id="conclusiones">
         <div class="card">
-            <h2>Conclusiones</h2>
-            <p>La implementación de un diseño basado en Arquitectura Empresarial permite al banco no solo organizar su tecnología actual, sino prepararse para un crecimiento modular.</p>
-            <h3>Referencias Bibliográficas</h3>
-            <ul style="font-size: 0.85rem; color: #555;">
-                <li>The Open Group. (2018). TOGAF® Standard, Version 9.2.</li>
-                <li>Lankhorst, M. (2017). Enterprise Architecture at Work.</li>
-                <li>Arango, M. et al. (2010). Arquitectura Empresarial.</li>
+            <div class="doc-section">
+                <h2>Conclusiones y Referencias</h2>
+            </div>
+            <p>La integración de una arquitectura empresarial robusta permite al banco escalar de manera ordenada, reduciendo costos operativos y mejorando la seguridad de los activos de los clientes.</p>
+            
+            <h3 style="margin-top: 2rem;">Referencias</h3>
+            <ul style="font-size: 0.9rem; color: var(--text-muted); list-style: none;">
+                <li>• The Open Group. (2018). TOGAF® Standard, Version 9.2.</li>
+                <li>• Lankhorst, M. (2017). Enterprise Architecture at Work.</li>
+                <li>• Busquets, C. (2020). Arquitectura de la Información y UX.</li>
             </ul>
         </div>
     </section>
@@ -227,27 +289,32 @@
 </div>
 
 <footer>
-    © 2026 Banco NeoNexus - Proyecto de Arquitectura de Sistemas
+    Banco NeoNexus - Proyecto Académico &copy; 2026
 </footer>
 
 <script>
-    function showTab(tabId) {
+    function changeTab(tabId) {
         // Ocultar todas las secciones
-        const sections = document.querySelectorAll('section');
-        sections.forEach(s => s.classList.remove('active'));
-        
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.remove('active');
+        });
         // Quitar clase activa de botones
-        const buttons = document.querySelectorAll('nav button');
-        buttons.forEach(b => b.classList.remove('active'));
-        
-        // Mostrar la seleccionada
+        document.querySelectorAll('nav button').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        // Mostrar sección actual
         document.getElementById(tabId).classList.add('active');
         document.getElementById('btn-' + tabId).classList.add('active');
         
-        // Scroll al inicio
-        window.scrollTo(0, 0);
+        // Scroll al inicio suave
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 </script>
 
 </body>
 </html>
+"""
+
+# Guardar el archivo final
+with open("banco_arquitectura_final.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
