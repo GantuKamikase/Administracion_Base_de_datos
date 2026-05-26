@@ -2,215 +2,196 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Banco Nova - Arquitectura Empresarial</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cuadro Comparativo - Arquitectura Empresarial</title>
 
 <style>
-body {
-margin: 0;
-font-family: 'Segoe UI', sans-serif;
-background: #eef2f7;
+
+body{
+    font-family: Arial, sans-serif;
+    margin:0;
+    padding:20px;
+    background:#f4f6f9;
+    color:#333;
 }
 
-/* HEADER */
-header {
-background: linear-gradient(90deg, #0f2027, #203a43, #2c5364);
-color: white;
-padding: 20px;
-text-align: center;
-font-size: 24px;
+header{
+    background:#1f3c88;
+    color:white;
+    padding:20px;
+    border-radius:10px;
+    text-align:center;
+    margin-bottom:20px;
 }
 
-/* NAV */
-nav {
-display: flex;
-justify-content: center;
-background: #1f3c88;
+h1{
+    margin:0;
 }
 
-nav button {
-background: transparent;
-border: none;
-color: white;
-padding: 15px 20px;
-cursor: pointer;
-font-size: 15px;
+.table-container{
+    overflow-x:auto;
 }
 
-nav button:hover {
-background: rgba(255,255,255,0.2);
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
-/* SECCIONES */
-.section {
-display: none;
-padding: 40px;
+th, td{
+    border:1px solid #ddd;
+    padding:12px;
+    text-align:left;
+    vertical-align:top;
 }
 
-.active {
-display: block;
+th{
+    background:#1f3c88;
+    color:white;
 }
 
-/* CARDS */
-.card {
-background: white;
-border-radius: 12px;
-padding: 25px;
-margin-bottom: 20px;
-box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+tr:nth-child(even){
+    background:#f2f2f2;
 }
 
-/* DASHBOARD */
-.dashboard {
-display: flex;
-gap: 20px;
-flex-wrap: wrap;
+.framework{
+    font-weight:bold;
+    color:#1f3c88;
 }
 
-.kpi {
-flex: 1;
-background: #ffffff;
-padding: 20px;
-border-radius: 10px;
-text-align: center;
-box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-.kpi h2 {
-margin: 0;
-color: #1f3c88;
-}
-
-/* IMÁGENES */
-img {
-width: 100%;
-border-radius: 10px;
+footer{
+    margin-top:20px;
+    text-align:center;
+    color:#666;
+    font-size:14px;
 }
 
 </style>
-
-<script>
-function showSection(id) {
-let sections = document.querySelectorAll('.section');
-sections.forEach(sec => sec.classList.remove('active'));
-document.getElementById(id).classList.add('active');
-}
-</script>
-
 </head>
 
 <body>
 
 <header>
-🏦 Banco Nova – Arquitectura Empresarial
+    <h1>Cuadro Comparativo</h1>
+    <p>CMMI vs ITIL v4 vs COBIT 2019 vs TOGAF</p>
 </header>
 
-<nav>
-<button onclick="showSection('inicio')">Inicio</button>
-<button onclick="showSection('archimate')">ArchiMate</button>
-<button onclick="showSection('mapaTI')">Arquitectura TI</button>
-<button onclick="showSection('bpmn')">Proceso BPMN</button>
-<button onclick="showSection('analisis')">TOGAF</button>
-<button onclick="showSection('conclusiones')">Conclusiones</button>
-</nav>
+<div class="table-container">
 
-<!-- INICIO -->
-<div id="inicio" class="section active">
+<table>
 
-<div class="card">
-<h1>Resumen Ejecutivo</h1>
-<p>Banco Nova implementa una arquitectura empresarial para digitalizar la apertura de cuentas, alineando negocio, aplicaciones y tecnología.</p>
+<tr>
+    <th>Criterio</th>
+    <th>CMMI</th>
+    <th>ITIL v4</th>
+    <th>COBIT 2019</th>
+    <th>TOGAF</th>
+</tr>
+
+<tr>
+    <td class="framework">Propósito Principal</td>
+    <td>Mejorar la madurez de procesos.</td>
+    <td>Gestionar servicios TI orientados al valor.</td>
+    <td>Gobernar y controlar TI.</td>
+    <td>Diseñar Arquitectura Empresarial.</td>
+</tr>
+
+<tr>
+    <td class="framework">Enfoque</td>
+    <td>Madurez y mejora continua.</td>
+    <td>Gestión de servicios TI.</td>
+    <td>Gobierno y alineación estratégica.</td>
+    <td>Arquitectura empresarial integral.</td>
+</tr>
+
+<tr>
+    <td class="framework">Fuente Oficial</td>
+    <td>CMMI Institute</td>
+    <td>AXELOS</td>
+    <td>ISACA</td>
+    <td>The Open Group</td>
+</tr>
+
+<tr>
+    <td class="framework">Estructura Principal</td>
+    <td>Niveles de madurez.</td>
+    <td>Prácticas y servicios.</td>
+    <td>Dominios y objetivos.</td>
+    <td>ADM y dominios arquitectónicos.</td>
+</tr>
+
+<tr>
+    <td class="framework">Ámbito</td>
+    <td>Procesos organizacionales.</td>
+    <td>Servicios TI.</td>
+    <td>Gobierno corporativo TI.</td>
+    <td>Negocio, aplicaciones y tecnología.</td>
+</tr>
+
+<tr>
+    <td class="framework">Naturaleza</td>
+    <td>Modelo de madurez.</td>
+    <td>Framework operativo.</td>
+    <td>Framework de gobierno.</td>
+    <td>Framework arquitectónico.</td>
+</tr>
+
+<tr>
+    <td class="framework">Niveles o Fases</td>
+    <td>Niveles 1 al 5.</td>
+    <td>Sistema de valor del servicio.</td>
+    <td>EDM, APO, BAI, DSS, MEA.</td>
+    <td>Fases ADM A-H.</td>
+</tr>
+
+<tr>
+    <td class="framework">Beneficios</td>
+    <td>Optimización y calidad.</td>
+    <td>Mejor experiencia del cliente.</td>
+    <td>Control y cumplimiento.</td>
+    <td>Alineación negocio-TI.</td>
+</tr>
+
+<tr>
+    <td class="framework">Limitaciones</td>
+    <td>Implementación compleja.</td>
+    <td>Requiere cambio cultural.</td>
+    <td>Alta documentación.</td>
+    <td>Curva de aprendizaje alta.</td>
+</tr>
+
+<tr>
+    <td class="framework">Certificaciones</td>
+    <td>CMMI Associate</td>
+    <td>ITIL Foundation</td>
+    <td>COBIT Foundation</td>
+    <td>TOGAF Certified</td>
+</tr>
+
+<tr>
+    <td class="framework">Aplicación Típica</td>
+    <td>Madurez de desarrollo.</td>
+    <td>Mesa de ayuda y soporte.</td>
+    <td>Auditoría y control TI.</td>
+    <td>Transformación digital.</td>
+</tr>
+
+<tr>
+    <td class="framework">Pregunta que Responde</td>
+    <td>¿Qué tan maduros son los procesos?</td>
+    <td>¿Cómo entregar valor en servicios TI?</td>
+    <td>¿Cómo gobernar TI correctamente?</td>
+    <td>¿Cómo alinear negocio y tecnología?</td>
+</tr>
+
+</table>
+
 </div>
 
-<div class="dashboard">
-
-<div class="kpi">
-<h2>30%</h2>
-<p>Reducción TAT</p>
-</div>
-
-<div class="kpi">
-<h2>+15%</h2>
-<p>Conversión</p>
-</div>
-
-<div class="kpi">
-<h2>+20%</h2>
-<p>Satisfacción</p>
-</div>
-
-</div>
-
-</div>
-
-<!-- ARCHIMATE -->
-<div id="archimate" class="section">
-<div class="card">
-<h2>Diagrama ArchiMate</h2>
-<img src="archimate_diagram.png">
-<p>Representa la relación entre negocio, aplicaciones y tecnología.</p>
-</div>
-</div>
-
-<!-- MAPA TI -->
-<div id="mapaTI" class="section">
-<div class="card">
-<h2>Mapa de Arquitectura TI</h2>
-<img src="mapa_ti.png">
-<p>Flujo completo desde usuario hasta infraestructura.</p>
-</div>
-</div>
-
-<!-- BPMN -->
-<div id="bpmn" class="section">
-<div class="card">
-<h2>Proceso BPMN</h2>
-
-<p>Inicio → Capturar datos → Validar documento → Decisión → Validar biometría → Aprobación → Fin</p>
-
-</div>
-</div>
-
-<!-- ANALISIS -->
-<div id="analisis" class="section">
-<div class="card">
-<h2>TOGAF ADM</h2>
-
-<ul>
-<li>Negocio: Onboarding digital</li>
-<li>Aplicación: Core bancario</li>
-<li>Tecnología: Infraestructura cloud</li>
-</ul>
-
-<h3>Trazabilidad</h3>
-<p>Objetivo → Valor → Capacidad → Proceso → Sistema → Infraestructura</p>
-
-</div>
-</div>
-
-<!-- CONCLUSIONES -->
-<div id="conclusiones" class="section">
-<div class="card">
-<h2>Conclusiones</h2>
-
-<ul>
-<li>Se logra alineación negocio-TI</li>
-<li>Arquitectura escalable y moderna</li>
-<li>Mejora experiencia del cliente</li>
-</ul>
-
-<h3>Referencias</h3>
-<ul>
-<li>TOGAF 9.2</li>
-<li>ArchiMate 3.2</li>
-<li>ISO 42010</li>
-</ul>
-
-</div>
-</div>
-
-</body>
-</html>
-</div>
+<footer>
+Proyecto académico - Arquitectura Empresarial y TI
+</footer>
 
 </body>
 </html>
