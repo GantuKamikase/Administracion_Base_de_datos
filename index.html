@@ -3,194 +3,593 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cuadro Comparativo - Arquitectura Empresarial</title>
-
+<title>Línea histórica y evolución de las Bases de Datos</title>
 <style>
-
-body{
-    font-family: Arial, sans-serif;
-    margin:0;
-    padding:20px;
-    background:#f4f6f9;
-    color:#333;
-}
-
-header{
-    background:#1f3c88;
-    color:white;
-    padding:20px;
-    border-radius:10px;
-    text-align:center;
-    margin-bottom:20px;
-}
-
-h1{
-    margin:0;
-}
-
-.table-container{
-    overflow-x:auto;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    background:white;
-    box-shadow:0 0 10px rgba(0,0,0,0.1);
-}
-
-th, td{
-    border:1px solid #ddd;
-    padding:12px;
-    text-align:left;
-    vertical-align:top;
-}
-
-th{
-    background:#1f3c88;
-    color:white;
-}
-
-tr:nth-child(even){
-    background:#f2f2f2;
-}
-
-.framework{
-    font-weight:bold;
-    color:#1f3c88;
-}
-
-footer{
-    margin-top:20px;
-    text-align:center;
-    color:#666;
-    font-size:14px;
-}
-
+    :root{
+        --bg:#07111f;
+        --panel:#0d1b2e;
+        --panel2:#10243b;
+        --text:#eaf4ff;
+        --muted:#a9bdd2;
+        --cyan:#27d3f2;
+        --blue:#4c8dff;
+        --purple:#9b6cff;
+        --green:#43e6a1;
+        --orange:#ffb454;
+        --red:#ff6b7a;
+        --line:rgba(92,211,242,.28);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+        margin:0;
+        font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;
+        color:var(--text);
+        background:
+          radial-gradient(circle at 10% 10%, rgba(39,211,242,.12), transparent 28%),
+          radial-gradient(circle at 90% 15%, rgba(155,108,255,.12), transparent 30%),
+          linear-gradient(145deg,#050b14,#071525 45%,#08111e);
+        line-height:1.65;
+    }
+    .hero{
+        min-height:76vh;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:70px 22px;
+        position:relative;
+        overflow:hidden;
+        border-bottom:1px solid var(--line);
+    }
+    .hero:before,.hero:after{
+        content:"";
+        position:absolute;
+        border:1px solid rgba(39,211,242,.15);
+        border-radius:50%;
+        width:520px;height:520px;
+    }
+    .hero:before{left:-250px;top:-220px}
+    .hero:after{right:-280px;bottom:-260px}
+    .hero-content{max-width:1100px;text-align:center;position:relative;z-index:2}
+    .badge{
+        display:inline-block;padding:7px 15px;border-radius:999px;
+        background:rgba(39,211,242,.1);border:1px solid rgba(39,211,242,.3);
+        color:var(--cyan);font-weight:700;letter-spacing:.8px;font-size:.85rem;
+    }
+    h1{
+        font-size:clamp(2.5rem,6vw,5.2rem);line-height:1.02;margin:22px 0 18px;
+        background:linear-gradient(90deg,#fff,var(--cyan),#bba8ff);
+        -webkit-background-clip:text;background-clip:text;color:transparent;
+    }
+    .hero p{max-width:850px;margin:auto;color:var(--muted);font-size:1.13rem}
+    .db-orbit{
+        margin:38px auto 0;width:180px;height:180px;border-radius:50%;
+        border:1px solid rgba(39,211,242,.35);display:grid;place-items:center;
+        box-shadow:0 0 70px rgba(39,211,242,.1), inset 0 0 40px rgba(76,141,255,.08);
+    }
+    .db-icon{font-size:4.4rem;filter:drop-shadow(0 0 18px rgba(39,211,242,.45))}
+    nav{
+        position:sticky;top:0;z-index:20;background:rgba(5,11,20,.86);
+        backdrop-filter:blur(14px);border-bottom:1px solid var(--line);
+    }
+    nav .navin{max-width:1200px;margin:auto;padding:12px 20px;display:flex;gap:9px;flex-wrap:wrap;justify-content:center}
+    nav a{color:var(--muted);text-decoration:none;padding:7px 11px;border-radius:8px;font-size:.9rem}
+    nav a:hover{color:#fff;background:rgba(39,211,242,.08)}
+    .container{max-width:1200px;margin:auto;padding:70px 22px}
+    .section-title{font-size:2rem;margin:0 0 8px}
+    .section-sub{color:var(--muted);margin:0 0 30px}
+    .timeline{position:relative;margin-top:42px}
+    .timeline:before{
+        content:"";position:absolute;left:50%;top:0;bottom:0;width:3px;
+        transform:translateX(-50%);background:linear-gradient(var(--cyan),var(--purple),var(--green));
+        box-shadow:0 0 18px rgba(39,211,242,.2)
+    }
+    .event{width:50%;padding:0 48px 48px;position:relative}
+    .event:nth-child(odd){left:0;text-align:right}
+    .event:nth-child(even){left:50%}
+    .dot{
+        position:absolute;top:5px;width:18px;height:18px;border-radius:50%;
+        background:var(--bg);border:4px solid var(--cyan);box-shadow:0 0 0 6px rgba(39,211,242,.09),0 0 20px rgba(39,211,242,.35)
+    }
+    .event:nth-child(odd) .dot{right:-9px}
+    .event:nth-child(even) .dot{left:-9px}
+    .card{
+        background:linear-gradient(145deg,rgba(16,36,59,.92),rgba(9,24,41,.92));
+        border:1px solid rgba(119,184,255,.15);border-radius:18px;padding:24px;
+        box-shadow:0 16px 45px rgba(0,0,0,.2);transition:.25s transform,.25s border-color;
+    }
+    .card:hover{transform:translateY(-4px);border-color:rgba(39,211,242,.38)}
+    .year{color:var(--cyan);font-weight:800;font-size:1.25rem}
+    .card h3{margin:7px 0 8px;font-size:1.25rem}
+    .card p{color:var(--muted);margin:0 0 10px}
+    .tags{display:flex;gap:7px;flex-wrap:wrap}
+    .event:nth-child(odd) .tags{justify-content:flex-end}
+    .tag{font-size:.76rem;padding:4px 8px;border-radius:999px;background:rgba(155,108,255,.11);color:#d7c9ff;border:1px solid rgba(155,108,255,.2)}
+    .milestones{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-top:30px}
+    .metric{padding:22px;border-radius:16px;background:rgba(13,27,46,.82);border:1px solid rgba(119,184,255,.12)}
+    .metric strong{font-size:1.7rem;color:var(--cyan);display:block}
+    .metric span{color:var(--muted);font-size:.9rem}
+    .evolution{
+        display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:28px
+    }
+    .evo{
+        padding:25px;border-radius:18px;background:rgba(13,27,46,.85);
+        border:1px solid rgba(119,184,255,.12)
+    }
+    .evo .icon{font-size:2rem}
+    .evo h3{margin:10px 0 7px}
+    .evo p{color:var(--muted);margin:0}
+    .architecture{
+        margin-top:35px;padding:30px;border-radius:20px;
+        background:linear-gradient(145deg,#0b1a2d,#091321);border:1px solid var(--line)
+    }
+    .arch-row{display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap}
+    .node{
+        min-width:150px;text-align:center;padding:17px;border-radius:14px;
+        border:1px solid rgba(39,211,242,.25);background:rgba(39,211,242,.05)
+    }
+    .arrow{font-size:1.8rem;color:var(--cyan)}
+    .compare{overflow-x:auto;margin-top:30px}
+    table{width:100%;border-collapse:collapse;background:rgba(13,27,46,.82);border-radius:15px;overflow:hidden}
+    th,td{padding:15px;border-bottom:1px solid rgba(119,184,255,.11);text-align:left;vertical-align:top}
+    th{background:rgba(39,211,242,.07);color:#dff9ff}
+    td{color:var(--muted)}
+    tr:last-child td{border-bottom:0}
+    .chart{
+        margin-top:28px;padding:25px;border-radius:18px;background:rgba(13,27,46,.82);
+        border:1px solid rgba(119,184,255,.12)
+    }
+    .chart svg{width:100%;height:auto;display:block}
+    .legend{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted);font-size:.88rem;margin-top:8px}
+    .legend i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
+    .note{border-left:4px solid var(--orange);padding:15px 18px;background:rgba(255,180,84,.06);color:var(--muted);border-radius:8px;margin-top:24px}
+    footer{border-top:1px solid var(--line);padding:35px 20px;text-align:center;color:var(--muted);background:#050b14}
+    @media(max-width:800px){
+        .timeline:before{left:9px}
+        .event,.event:nth-child(even),.event:nth-child(odd){width:100%;left:0;text-align:left;padding-left:40px;padding-right:0}
+        .event:nth-child(odd) .dot,.event:nth-child(even) .dot{left:0;right:auto}
+        .event:nth-child(odd) .tags{justify-content:flex-start}
+        .milestones{grid-template-columns:repeat(2,1fr)}
+        .evolution{grid-template-columns:1fr}
+    }
+    @media(max-width:500px){.milestones{grid-template-columns:1fr}.container{padding:50px 15px}}
 </style>
 </head>
-
 <body>
 
-<header>
-    <h1>Cuadro Comparativo</h1>
-    <p>CMMI vs ITIL v4 vs COBIT 2019 vs TOGAF</p>
+<header class="hero">
+    <div class="hero-content">
+        <span class="badge">ADMINISTRACIÓN DE BASES DE DATOS · SEMESTRE X</span>
+        <h1>Línea histórica y evolución de las Bases de Datos</h1>
+        <p>
+            Recorrido desde los primeros sistemas de archivos y modelos jerárquicos hasta
+            las arquitecturas relacionales, distribuidas, NoSQL y los servicios modernos
+            orientados a la nube y a grandes volúmenes de datos.
+        </p>
+        <div class="db-orbit"><div class="db-icon">🗄️</div></div>
+    </div>
 </header>
 
-<div class="table-container">
-
-<table>
-
-<tr>
-    <th>Criterio</th>
-    <th>CMMI</th>
-    <th>ITIL v4</th>
-    <th>COBIT 2019</th>
-    <th>TOGAF</th>
-</tr>
-
-<tr>
-    <td class="framework">Propósito Principal</td>
-    <td>Mejorar la madurez de procesos.</td>
-    <td>Gestionar servicios TI orientados al valor.</td>
-    <td>Gobernar y controlar TI.</td>
-    <td>Diseñar Arquitectura Empresarial.</td>
-</tr>
-
-<tr>
-    <td class="framework">Enfoque</td>
-    <td>Madurez y mejora continua.</td>
-    <td>Gestión de servicios TI.</td>
-    <td>Gobierno y alineación estratégica.</td>
-    <td>Arquitectura empresarial integral.</td>
-</tr>
-
-<tr>
-    <td class="framework">Fuente Oficial</td>
-    <td>CMMI Institute</td>
-    <td>AXELOS</td>
-    <td>ISACA</td>
-    <td>The Open Group</td>
-</tr>
-
-<tr>
-    <td class="framework">Estructura Principal</td>
-    <td>Niveles de madurez.</td>
-    <td>Prácticas y servicios.</td>
-    <td>Dominios y objetivos.</td>
-    <td>ADM y dominios arquitectónicos.</td>
-</tr>
-
-<tr>
-    <td class="framework">Ámbito</td>
-    <td>Procesos organizacionales.</td>
-    <td>Servicios TI.</td>
-    <td>Gobierno corporativo TI.</td>
-    <td>Negocio, aplicaciones y tecnología.</td>
-</tr>
-
-<tr>
-    <td class="framework">Naturaleza</td>
-    <td>Modelo de madurez.</td>
-    <td>Framework operativo.</td>
-    <td>Framework de gobierno.</td>
-    <td>Framework arquitectónico.</td>
-</tr>
-
-<tr>
-    <td class="framework">Niveles o Fases</td>
-    <td>Niveles 1 al 5.</td>
-    <td>Sistema de valor del servicio.</td>
-    <td>EDM, APO, BAI, DSS, MEA.</td>
-    <td>Fases ADM A-H.</td>
-</tr>
-
-<tr>
-    <td class="framework">Beneficios</td>
-    <td>Optimización y calidad.</td>
-    <td>Mejor experiencia del cliente.</td>
-    <td>Control y cumplimiento.</td>
-    <td>Alineación negocio-TI.</td>
-</tr>
-
-<tr>
-    <td class="framework">Limitaciones</td>
-    <td>Implementación compleja.</td>
-    <td>Requiere cambio cultural.</td>
-    <td>Alta documentación.</td>
-    <td>Curva de aprendizaje alta.</td>
-</tr>
-
-<tr>
-    <td class="framework">Certificaciones</td>
-    <td>CMMI Associate</td>
-    <td>ITIL Foundation</td>
-    <td>COBIT Foundation</td>
-    <td>TOGAF Certified</td>
-</tr>
-
-<tr>
-    <td class="framework">Aplicación Típica</td>
-    <td>Madurez de desarrollo.</td>
-    <td>Mesa de ayuda y soporte.</td>
-    <td>Auditoría y control TI.</td>
-    <td>Transformación digital.</td>
-</tr>
-
-<tr>
-    <td class="framework">Pregunta que Responde</td>
-    <td>¿Qué tan maduros son los procesos?</td>
-    <td>¿Cómo entregar valor en servicios TI?</td>
-    <td>¿Cómo gobernar TI correctamente?</td>
-    <td>¿Cómo alinear negocio y tecnología?</td>
-</tr>
-
-</table>
-
+<nav>
+    <div class="navin">
+        <a href="#introduccion">Introducción</a>
+        <a href="#timeline">Línea histórica</a>
+        <a href="#evolucion">Etapas</a>
+        <a href="#arquitectura">Arquitectura</a>
+        <a href="#modelos">Modelos</a>
+        <a href="#actualidad">Actualidad</a>
+        <a href="#conclusion">Conclusión</a>
 </div>
+</nav>
+
+<main>
+
+<section id="introduccion" class="container">
+    <h2 class="section-title">¿Por qué evolucionaron las bases de datos?</h2>
+    <p class="section-sub">
+        La evolución de las bases de datos está relacionada con una necesidad fundamental:
+        almacenar más información, encontrarla rápidamente, mantenerla consistente y permitir
+        que múltiples usuarios trabajen al mismo tiempo.
+    </p>
+
+    <div class="milestones">
+        <div class="metric"><strong>1960s</strong><span>Primeros modelos estructurados de gestión de datos</span></div>
+        <div class="metric"><strong>1970</strong><span>Modelo relacional propuesto por Edgar F. Codd</span></div>
+        <div class="metric"><strong>1990s+</strong><span>Expansión de la Web y nuevos tipos de datos</span></div>
+        <div class="metric"><strong>2000s+</strong><span>NoSQL, nube, datos distribuidos y Big Data</span></div>
+    </div>
+
+    <div class="note">
+        <strong>Idea clave:</strong> no existe un único modelo de base de datos que sea mejor para
+        todos los problemas. La tecnología se ha diversificado para responder a diferentes
+        necesidades de consistencia, volumen, velocidad, estructura y distribución.
+    </div>
+</section>
+
+<section id="timeline" class="container">
+    <h2 class="section-title">Línea histórica</h2>
+    <p class="section-sub">Principales hitos que marcaron la evolución de los sistemas de gestión de datos.</p>
+
+    <div class="timeline">
+
+        <article class="event">
+            <span class="dot"></span>
+            <div class="card">
+                <div class="year">1950s</div>
+                <h3>Archivos y procesamiento secuencial</h3>
+                <p>
+                    Antes de los SGBD modernos, muchas organizaciones almacenaban información
+                    directamente en archivos. Los programas debían conocer la estructura de los
+                    archivos y encargarse de localizar y actualizar los registros.
+                </p>
+                <div class="tags"><span class="tag">Archivos</span><span class="tag">Cintas</span><span class="tag">Procesamiento por lotes</span></div>
+            </div>
+        </article>
+
+        <article class="event">
+            <span class="dot"></span>
+            <div class="card">
+                <div class="year">1960s</div>
+                <h3>Modelos jerárquico y de red</h3>
+                <p>
+                    Aparecen sistemas especializados para administrar grandes volúmenes de
+                    información. El modelo jerárquico organiza los datos como un árbol, mientras
+                    que el modelo de red permite relaciones más complejas entre registros.
+                </p>
+                <div class="tags"><span class="tag">Jerárquico</span><span class="tag">Red</span><span class="tag">Mainframe</span></div>
+            </div>
+        </article>
+
+        <article class="event">
+            <span class="dot"></span>
+            <div class="card">
+                <div class="year">1970</div>
+                <h3>Modelo relacional</h3>
+                <p>
+                    Edgar F. Codd publica el trabajo que presenta el modelo relacional. La
+                    información pasa a representarse mediante relaciones o tablas y se fortalece
+                    el uso de conceptos matemáticos para organizar los datos.
+                </p>
+                <div class="tags"><span class="tag">Edgar F. Codd</span><span class="tag">Relaciones</span><span class="tag">Tablas</span></div>
+            </div>
+        </article>
+
+        <article class="event">
+            <span class="dot"></span>
+            <div class="card">
+                <div class="year">1970s</div>
+                <h3>Primeros prototipos relacionales</h3>
+                <p>
+                    Proyectos de investigación como System R e Ingres ayudan a demostrar que el
+                    modelo relacional puede utilizarse en sistemas reales. También se desarrollan
+                    ideas que posteriormente influyen en SQL y en los optimizadores de consultas.
+                </p>
+                <div class="tags"><span class="tag">System R</span><span class="tag">Ingres</span><span class="tag">SQL</span></div>
+            </div>
+        </article>
+
+        <article class="event">
+            <span class="dot"></span>
+            <div class="card">
+                <div class="year">1980s</div>
+                <h3>Consolidación de los SGBD relacionales</h3>
+                <p>
+                    Los sistemas relacionales se expanden en empresas y universidades. Se
+                    fortalecen SQL, las transacciones, los índices, la seguridad y las técnicas
+                    de optimización.
+                </p>
+                <div class="tags"><span class="tag">SQL</span><span class="tag">Transacciones</span><span class="tag">Índices</span></div>
+            </div>
+        </article>
+
+        <article class="event">
+            <span class="dot"></span>
+            <div class="card">
+                <div class="year">1990s</div>
+                <h3>Bases de datos para la Web</h3>
+                <p>
+                    La expansión de Internet aumenta la necesidad de aplicaciones conectadas a
+                    bases de datos. Crecen las soluciones cliente-servidor, los sistemas
+                    empresariales y los almacenes de datos para análisis.
+                </p>
+                <div class="tags"><span class="tag">Web</span><span class="tag">Cliente-servidor</span><span class="tag">Data Warehouse</span></div>
+            </div>
+        </article>
+
+        <article class="event">
+            <span class="dot"></span>
+            <div class="card">
+                <div class="year">2000s</div>
+                <h3>Web 2.0, Big Data y sistemas distribuidos</h3>
+                <p>
+                    Redes sociales, comercio electrónico y servicios web generan enormes
+                    cantidades de datos. Se vuelve importante distribuir el almacenamiento y el
+                    procesamiento entre muchos servidores.
+                </p>
+                <div class="tags"><span class="tag">Big Data</span><span class="tag">Distribución</span><span class="tag">Escalabilidad</span></div>
+            </div>
+        </article>
+
+        <article class="event">
+            <span class="dot"></span>
+            <div class="card">
+                <div class="year">2000s–2010s</div>
+                <h3>Expansión de NoSQL</h3>
+                <p>
+                    Surgen y se popularizan bases de datos orientadas a documentos, clave-valor,
+                    columnas y grafos. La idea central es ofrecer modelos flexibles y opciones de
+                    escalamiento horizontal para determinadas cargas.
+                </p>
+                <div class="tags"><span class="tag">Documentos</span><span class="tag">Clave-valor</span><span class="tag">Grafos</span></div>
+            </div>
+        </article>
+
+        <article class="event">
+            <span class="dot"></span>
+            <div class="card">
+                <div class="year">2010s</div>
+                <h3>Nube y bases de datos como servicio</h3>
+                <p>
+                    Los servicios cloud permiten crear bases de datos bajo demanda, automatizar
+                    copias, escalar recursos y distribuir sistemas en diferentes zonas
+                    geográficas. El DBA comienza a trabajar también con automatización y DevOps.
+                </p>
+                <div class="tags"><span class="tag">Cloud</span><span class="tag">Automatización</span><span class="tag">Alta disponibilidad</span></div>
+            </div>
+        </article>
+
+        <article class="event">
+            <span class="dot"></span>
+            <div class="card">
+                <div class="year">2020s</div>
+                <h3>Arquitecturas modernas y datos inteligentes</h3>
+                <p>
+                    Se combinan bases relacionales y NoSQL con microservicios, arquitecturas
+                    distribuidas, analítica en tiempo real, observabilidad y cargas relacionadas
+                    con inteligencia artificial. También crece el interés por sistemas
+                    multimodelo y bases de datos vectoriales.
+                </p>
+                <div class="tags"><span class="tag">IA</span><span class="tag">Vectorial</span><span class="tag">Microservicios</span><span class="tag">Tiempo real</span></div>
+            </div>
+        </article>
+
+    </div>
+</section>
+
+<section id="evolucion" class="container">
+    <h2 class="section-title">Evolución por etapas</h2>
+    <p class="section-sub">El cambio tecnológico puede entenderse como una evolución de necesidades.</p>
+
+    <div class="evolution">
+        <div class="evo">
+            <div class="icon">📁</div>
+            <h3>1. Archivos</h3>
+            <p>El programa controla directamente los archivos. Es sencillo para sistemas pequeños, pero genera duplicación, dependencia entre programas y dificultades de concurrencia.</p>
+        </div>
+        <div class="evo">
+            <div class="icon">🌳</div>
+            <h3>2. Jerárquico y red</h3>
+            <p>Se introduce una organización estructurada de los registros. Mejora el acceso, aunque el modelo depende bastante de las relaciones definidas previamente.</p>
+        </div>
+        <div class="evo">
+            <div class="icon">▦</div>
+            <h3>3. Relacional</h3>
+            <p>Las tablas, claves, restricciones y SQL permiten trabajar con datos relacionados de manera más flexible y con fuerte soporte transaccional.</p>
+        </div>
+        <div class="evo">
+            <div class="icon">🌐</div>
+            <h3>4. Distribuido</h3>
+            <p>Los datos y las aplicaciones se distribuyen entre varios servidores para aumentar capacidad, disponibilidad y tolerancia a fallos.</p>
+        </div>
+        <div class="evo">
+            <div class="icon">🧩</div>
+            <h3>5. NoSQL</h3>
+            <p>Se utilizan modelos de documentos, clave-valor, columnas o grafos cuando la flexibilidad y la escalabilidad horizontal son prioritarias.</p>
+        </div>
+        <div class="evo">
+            <div class="icon">☁️</div>
+            <h3>6. Cloud y datos inteligentes</h3>
+            <p>La infraestructura se automatiza y las bases de datos se integran con analítica, streaming, microservicios, IA y servicios administrados.</p>
+        </div>
+    </div>
+</section>
+
+<section id="arquitectura" class="container">
+    <h2 class="section-title">De la aplicación monolítica a la arquitectura distribuida</h2>
+    <p class="section-sub">Una de las transformaciones más importantes fue separar almacenamiento, procesamiento y servicios.</p>
+
+    <div class="architecture">
+        <h3>Arquitectura tradicional</h3>
+        <div class="arch-row">
+            <div class="node">👤 Usuario</div><div class="arrow">→</div>
+            <div class="node">🖥️ Aplicación</div><div class="arrow">→</div>
+            <div class="node">🗄️ Base de datos</div>
+        </div>
+        <hr style="border:0;border-top:1px solid rgba(119,184,255,.12);margin:30px 0">
+        <h3>Arquitectura moderna</h3>
+        <div class="arch-row">
+            <div class="node">👥 Usuarios</div><div class="arrow">→</div>
+            <div class="node">⚖️ Balanceador</div><div class="arrow">→</div>
+            <div class="node">⚙️ Microservicios</div><div class="arrow">→</div>
+            <div class="node">🗄️ SGBD</div>
+        </div>
+        <div class="arch-row" style="margin-top:18px">
+            <div class="node">📊 Analítica</div><div class="arrow">↔</div>
+            <div class="node">☁️ Cloud</div><div class="arrow">↔</div>
+            <div class="node">🔁 Réplicas</div><div class="arrow">↔</div>
+            <div class="node">💾 Backups</div>
+        </div>
+    </div>
+</section>
+
+<section id="modelos" class="container">
+    <h2 class="section-title">Comparación de los principales modelos</h2>
+    <p class="section-sub">Cada modelo responde a necesidades diferentes.</p>
+
+    <div class="compare">
+    <table>
+        <thead>
+            <tr>
+                <th>Modelo</th>
+                <th>Estructura</th>
+                <th>Ventaja principal</th>
+                <th>Uso frecuente</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Jerárquico</strong></td>
+                <td>Árbol de registros</td>
+                <td>Acceso eficiente por relaciones predefinidas</td>
+                <td>Sistemas históricos y especializados</td>
+            </tr>
+            <tr>
+                <td><strong>Red</strong></td>
+                <td>Registros conectados</td>
+                <td>Relaciones complejas</td>
+                <td>Sistemas heredados</td>
+            </tr>
+            <tr>
+                <td><strong>Relacional</strong></td>
+                <td>Tablas y relaciones</td>
+                <td>Consistencia, SQL y transacciones</td>
+                <td>Banca, universidades, ERP, comercio</td>
+            </tr>
+            <tr>
+                <td><strong>Documento</strong></td>
+                <td>Documentos JSON/BSON</td>
+                <td>Flexibilidad de esquema</td>
+                <td>Catálogos, contenido y eventos</td>
+            </tr>
+            <tr>
+                <td><strong>Clave-valor</strong></td>
+                <td>Clave → valor</td>
+                <td>Acceso muy rápido por clave</td>
+                <td>Caché, sesiones y aplicaciones distribuidas</td>
+            </tr>
+            <tr>
+                <td><strong>Grafo</strong></td>
+                <td>Nodos y relaciones</td>
+                <td>Representación de conexiones</td>
+                <td>Redes sociales, recomendaciones y fraude</td>
+            </tr>
+            <tr>
+                <td><strong>Vectorial</strong></td>
+                <td>Vectores numéricos</td>
+                <td>Búsqueda por similitud semántica</td>
+                <td>IA generativa y sistemas RAG</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+</section>
+
+<section class="container">
+    <h2 class="section-title">Tendencia general de la evolución</h2>
+    <p class="section-sub">No representa una cantidad histórica exacta; es una visualización conceptual de cómo han aumentado las necesidades tecnológicas.</p>
+    <div class="chart">
+        <svg viewBox="0 0 1000 360" role="img" aria-label="Gráfico conceptual de evolución de necesidades de las bases de datos">
+            <defs>
+                <linearGradient id="area" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0%" stop-color="#27d3f2" stop-opacity=".35"/>
+                    <stop offset="100%" stop-color="#27d3f2" stop-opacity="0"/>
+                </linearGradient>
+            </defs>
+            <line x1="70" y1="290" x2="950" y2="290" stroke="#3b5875" stroke-width="2"/>
+            <line x1="70" y1="70" x2="70" y2="290" stroke="#3b5875" stroke-width="2"/>
+            <path d="M70 270 C180 250,220 235,300 215 C390 190,430 170,520 155 C610 140,650 110,740 100 C820 92,875 75,950 58 L950 290 L70 290 Z" fill="url(#area)"/>
+            <path d="M70 270 C180 250,220 235,300 215 C390 190,430 170,520 155 C610 140,650 110,740 100 C820 92,875 75,950 58" fill="none" stroke="#27d3f2" stroke-width="5" stroke-linecap="round"/>
+            <g fill="#d8edff" font-size="15" font-family="Arial">
+                <text x="55" y="315">1950s</text>
+                <text x="250" y="315">1970s</text>
+                <text x="445" y="315">1990s</text>
+                <text x="650" y="315">2010s</text>
+                <text x="865" y="315">2020s</text>
+                <text x="80" y="48">Complejidad y escala de las necesidades</text>
+            </g>
+            <g fill="#27d3f2">
+                <circle cx="70" cy="270" r="6"/><circle cx="300" cy="215" r="6"/>
+                <circle cx="520" cy="155" r="6"/><circle cx="740" cy="100" r="6"/>
+                <circle cx="950" cy="58" r="6"/>
+            </g>
+        </svg>
+        <div class="legend">
+            <span><i style="background:#27d3f2"></i>Evolución conceptual</span>
+            <span>Factores: volumen · velocidad · disponibilidad · distribución · variedad</span>
+        </div>
+    </div>
+</section>
+
+<section id="actualidad" class="container">
+    <h2 class="section-title">Las bases de datos en la actualidad</h2>
+    <p class="section-sub">
+        Hoy las organizaciones suelen utilizar arquitecturas híbridas. Una misma solución puede
+        combinar varios motores según las características de cada tipo de dato.
+    </p>
+
+    <div class="evolution">
+        <div class="evo">
+            <div class="icon">🔐</div>
+            <h3>Seguridad</h3>
+            <p>Control de acceso, roles, cifrado, auditoría, gestión de secretos y protección de información sensible.</p>
+        </div>
+        <div class="evo">
+            <div class="icon">⚡</div>
+            <h3>Rendimiento</h3>
+            <p>Índices, caché, optimización de consultas, particionamiento y monitoreo continuo.</p>
+        </div>
+        <div class="evo">
+            <div class="icon">🔄</div>
+            <h3>Alta disponibilidad</h3>
+            <p>Replicación, failover, balanceo de carga, recuperación y estrategias de continuidad.</p>
+        </div>
+        <div class="evo">
+            <div class="icon">☁️</div>
+            <h3>Nube</h3>
+            <p>Servicios administrados, escalamiento automático, almacenamiento distribuido y despliegues globales.</p>
+        </div>
+        <div class="evo">
+            <div class="icon">🤖</div>
+            <h3>Inteligencia artificial</h3>
+            <p>Datos vectoriales, búsqueda semántica, sistemas RAG y aplicaciones que integran modelos de IA.</p>
+        </div>
+        <div class="evo">
+            <div class="icon">📈</div>
+            <h3>Analítica</h3>
+            <p>Procesamiento de grandes volúmenes, datos históricos, streaming y plataformas orientadas a inteligencia de negocios.</p>
+        </div>
+    </div>
+</section>
+
+<section id="conclusion" class="container">
+    <h2 class="section-title">Conclusión</h2>
+    <p class="section-sub">
+        La historia de las bases de datos muestra una transición desde archivos simples y
+        sistemas altamente dependientes de los programas hacia plataformas capaces de
+        administrar información distribuida, transaccional, semiestructurada y multimedia.
+    </p>
+    <div class="card">
+        <p>
+            El modelo relacional continúa siendo fundamental porque ofrece una estructura sólida,
+            integridad referencial, SQL y transacciones confiables. Sin embargo, la aparición de
+            Internet, Big Data, aplicaciones móviles, servicios distribuidos y posteriormente la
+            inteligencia artificial impulsó el desarrollo de alternativas NoSQL y de nuevas
+            arquitecturas especializadas.
+        </p>
+        <p>
+            Por esta razón, el administrador de bases de datos moderno no debe limitarse a conocer
+            un único motor. Debe comprender diferentes modelos de almacenamiento, seguridad,
+            rendimiento, copias de seguridad, replicación, alta disponibilidad y recuperación,
+            seleccionando la tecnología de acuerdo con las necesidades reales de la organización.
+        </p>
+    </div>
+</section>
+
+</main>
 
 <footer>
-Proyecto académico - Arquitectura Empresarial y TI
+    <strong>Línea histórica y evolución de las Bases de Datos</strong><br>
+    Actividad académica · Administración de Bases de Datos · Ingeniería de Sistemas
 </footer>
 
 </body>
